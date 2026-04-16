@@ -14,6 +14,3 @@ La relación establecida es de **1 a N** entre las tablas `genero` y `libro`:
 - Un **Libro** pertenece exclusivamente a un único Género.
 
 ---
-
-### Diagrama Entidad Relación (DER)
-[Aquí debes adjuntar la imagen del diagrama que generes basándote en las tablas de arriba]
