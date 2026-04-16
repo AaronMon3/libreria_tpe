@@ -14,4 +14,4 @@ La relación establecida es de **1 a N** entre las tablas `genero` y `libro`:
 - Un **Libro** pertenece exclusivamente a un único Género.
 
 ---
-db_libreria_tpe.sql
+DER.jpg
