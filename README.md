@@ -14,4 +14,4 @@ La relación establecida es de **1 a N** entre las tablas `genero` y `libro`:
 - Un **Libro** pertenece exclusivamente a un único Género.
 
 ---
-DER.jpg
+<img width="661" height="300" alt="DER" src="https://github.com/user-attachments/assets/b1210ab5-78d1-46a3-afbe-9a937223a7af" />
