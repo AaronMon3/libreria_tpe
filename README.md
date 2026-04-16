@@ -1,5 +1,5 @@
-# libreria_tpe
-# Trabajo Práctico Especial - Parte 1: Modelo de Datos
+# Trabajo Práctico Especial - libreria_tpe
+Parte 1: Modelo de Datos
 
 ### Integrantes
 * **Aaron Rafael Monteagudo** (aaronmonteagudo800@gmail.com)
