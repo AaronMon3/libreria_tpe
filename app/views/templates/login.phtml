@@ -1,0 +1,27 @@
+<?php
+require_once "app/views/templates/layout/header.phtml";
+?>
+
+<main class="form-page">
+  <h2>Iniciar sesión</h2>
+
+  <?php if (!empty($error)) { ?>
+    <p class="form-error"><?= htmlspecialchars($error) ?></p>
+  <?php } ?>
+
+  <form action="login/auth" method="POST" class="login-form">
+    <label>
+      Usuario:
+      <input type="text" name="email" required>
+    </label>
+    <label>
+      Contraseña:
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit">Ingresar</button>
+  </form>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>

@@ -1,0 +1,20 @@
+<?php
+require_once "app/views/templates/layout/header.phtml";
+?>
+
+<main class="book-detail">
+  <h2><?= htmlspecialchars($book->titulo) ?></h2>
+  <?php if (!empty($book->imagen)) { ?>
+    <div class="book-detail__image">
+      <img src="<?= htmlspecialchars($book->imagen) ?>" alt="Portada de <?= htmlspecialchars($book->titulo) ?>">
+    </div>
+  <?php } ?>
+  <p><strong>Autor:</strong> <?= htmlspecialchars($book->autor) ?></p>
+  <p><strong>Categoría:</strong> <?= htmlspecialchars($book->nombre_genero) ?></p>
+  <p><strong>Precio:</strong> $<?= number_format($book->precio, 2) ?></p>
+  <p><a href="libros">Volver al listado</a></p>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>

@@ -1,0 +1,237 @@
+/*use ese sistma llamado BEM, se divide en bloques, elementos y modificadores, para que sea coherente y mas facil de ller el codigo. Los bloques representan componentes independientes, los elementos son partes de esos bloques y los modificadores modifican(jajah) la apariencia o comportamiento.*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  color: #2c3e50;
+}
+
+body {
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  list-style: none;
+}
+
+/*----------------HEADER (layout/header.phtml)----------------*/
+.nav {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  background-color: #e8e8e8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px 40px;
+}
+
+.nav__title {
+  flex: 1;
+  background-color: #f5f5f5;
+  padding: 30px;
+  padding-left: 40px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav__title h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 2.5rem;
+}
+
+.nav__session {
+  width: auto;
+  min-width: 250px;
+  background-color: #f5f5f5;
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/*----------------HOME (templates/home.phtml)----------------*/
+.home {
+  display: flex;
+  gap: 40px;
+  max-width: 1400px;
+  width: 90%;
+  margin: 50px auto;
+  flex: 1;
+}
+
+.home__card {
+  flex: 1;
+  background-color: white;
+  border-radius: 16px;
+  padding: 60px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.home__card--genres {
+  background-color: lightblue;
+}
+
+.home__card--genres a:hover {
+  color: #3498db;
+}
+
+.home__card--books {
+  background-color: lightcoral;
+}
+
+.home__card--books a:hover {
+  color: rgb(233, 77, 77);
+}
+
+.home__card-title {
+  font-family: "Georgia", serif;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+/*----------------Estilos compartidos (genres.phtml y genre.phtml)----------------*/
+.card-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  max-width: 800px;
+  width: 90%;
+  margin: 50px auto;
+  flex: 1;
+}
+
+.card-list__items {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.card-list__items ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.card-list__item {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.card-list__item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-list__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-list__image {
+  width: 30%;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-list__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/*----------------GENEROS (templates/genres.phtml)----------------*/
+.genre-list__name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.genre-list__name a {
+  color: #2c3e50;
+  font-family: "Georgia", serif;
+}
+
+.genre-list__name a:hover {
+  color: #031622;
+}
+
+.genre-list__desc {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+/*----------------LIBROS (templates/genre.phtml)----------------*/
+.book-list__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-family: "Georgia", serif;
+}
+
+.book-list__author {
+  font-size: 1rem;
+  color: #777;
+  line-height: 1.5;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  font-style: italic;
+}
+
+/*----------------FOOTER (layout/footer.phtml)----------------*/
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 50px;
+  width: 100%;
+}

@@ -1,0 +1,39 @@
+<?php
+require_once "app/views/templates/layout/header.phtml";
+?>
+
+<main class="admin">
+  <h2>Administración de Libros</h2>
+  <p><a href="admin/libros/agregar">Agregar nuevo libro</a></p>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Precio</th>
+        <th>Categoría</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach($books as $book) { ?>
+        <tr>
+          <td><?= htmlspecialchars($book->titulo) ?></td>
+          <td><?= htmlspecialchars($book->autor) ?></td>
+          <td>$<?= number_format($book->precio, 2) ?></td>
+          <td><?= htmlspecialchars($book->nombre_genero) ?></td>
+          <td>
+            <a href="admin/libros/editar/<?= $book->id_libro ?>">Editar</a>
+            <a href="admin/libros/eliminar/<?= $book->id_libro ?>"
+               onclick="return confirm('¿Eliminar este libro?');">Eliminar</a>
+          </td>
+        </tr>
+      <?php } ?>
+    </tbody>
+  </table>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>

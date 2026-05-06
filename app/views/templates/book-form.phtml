@@ -1,0 +1,56 @@
+<?php
+require_once "app/views/templates/layout/header.phtml";
+$isEdit = $book !== null;
+$action = $isEdit ? "admin/libros/editar/" . $book->id_libro : "admin/libros/agregar";
+?>
+
+<main class="form-page">
+  <h2><?= $isEdit ? 'Editar libro' : 'Agregar libro' ?></h2>
+
+  <form action="<?= $action ?>" method="POST" class="book-form">
+    <label>
+      Título:
+      <input type="text" name="titulo" required
+             value="<?= $isEdit ? htmlspecialchars($book->titulo) : '' ?>">
+    </label>
+
+    <label>
+      Autor:
+      <input type="text" name="autor" required
+             value="<?= $isEdit ? htmlspecialchars($book->autor) : '' ?>">
+    </label>
+
+    <label>
+      Precio:
+      <input type="number" step="0.01" min="0" name="precio" required
+             value="<?= $isEdit ? htmlspecialchars($book->precio) : '' ?>">
+    </label>
+
+    <label>
+      Imagen (URL):
+      <input type="text" name="imagen"
+             value="<?= $isEdit ? htmlspecialchars($book->imagen ?? '') : '' ?>">
+    </label>
+
+    <label>
+      Categoría:
+      <select name="id_genero_fk" required>
+        <option value="">-- Seleccionar --</option>
+        <?php foreach($genres as $g) {
+          $selected = ($isEdit && $book->id_genero_fk == $g->id_genero) ? 'selected' : '';
+        ?>
+          <option value="<?= $g->id_genero ?>" <?= $selected ?>>
+            <?= htmlspecialchars($g->nombre) ?>
+          </option>
+        <?php } ?>
+      </select>
+    </label>
+
+    <button type="submit"><?= $isEdit ? 'Guardar cambios' : 'Agregar' ?></button>
+    <a href="admin/libros">Cancelar</a>
+  </form>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>

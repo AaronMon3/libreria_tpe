@@ -1,0 +1,42 @@
+<?php
+require_once "app/views/templates/layout/header.phtml";
+?>
+
+<main class="card-list">
+  <h2>Categoría: <?= htmlspecialchars($genre->nombre) ?></h2>
+  <?php if (!empty($genre->descripcion)) { ?>
+    <p><?= htmlspecialchars($genre->descripcion) ?></p>
+  <?php } ?>
+
+  <div class="card-list__items">
+    <?php if (empty($books)) { ?>
+      <p>No hay libros en esta categoría.</p>
+    <?php } else { ?>
+      <ul>
+        <?php foreach($books as $book) { ?>
+          <li class="card-list__item">
+            <div class="card-list__info">
+              <div class="book-list__title">
+                <a href="libros/ver/<?= $book->id_libro ?>"><?= htmlspecialchars($book->titulo) ?></a>
+              </div>
+              <p class="book-list__author"><?= htmlspecialchars($book->autor) ?></p>
+              <p class="book-list__genre">Categoría: <?= htmlspecialchars($book->nombre_genero) ?></p>
+              <p class="book-list__price">$<?= number_format($book->precio, 2) ?></p>
+            </div>
+            <div class="card-list__image">
+              <?php if (!empty($book->imagen)) { ?>
+                <img src="<?= htmlspecialchars($book->imagen) ?>" alt="Portada de <?= htmlspecialchars($book->titulo) ?>">
+              <?php } ?>
+            </div>
+          </li>
+        <?php } ?>
+      </ul>
+    <?php } ?>
+  </div>
+
+  <p><a href="generos">Volver a categorías</a></p>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>

@@ -1,0 +1,33 @@
+<?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <base href="<?php echo BASE_URL; ?>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/styles.css">
+  <title>libreria AE</title>
+</head>
+<body>
+  <header>
+      <nav class="nav">
+        <div class="nav__title">
+          <h1><a href="home">Libreria AE</a></h1>
+        </div>
+        <div class="nav__links">
+          <a href="libros">Libros</a>
+          <a href="generos">Categorías</a>
+          <?php if (!empty($_SESSION['user'])) { ?>
+            <a href="admin/libros">Administrar</a>
+          <?php } ?>
+        </div>
+        <div class="nav__session">
+          <?php if (!empty($_SESSION['user'])) { ?>
+            <span>Hola, <?= htmlspecialchars($_SESSION['user']) ?></span>
+            <a href="logout">Cerrar sesión</a>
+          <?php } else { ?>
+            <a href="login">Iniciar sesión</a>
+          <?php } ?>
+        </div>
+      </nav>
+  </header>
