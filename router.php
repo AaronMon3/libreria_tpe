@@ -16,8 +16,8 @@ define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'
  * /home                      ---> HomeController::showHome()
  * /libros                    ---> BooksController::showBooks()
  * /libros/ver/:id            ---> BooksController::showBook(:id)
- * /generos                   ---> GenreController::showGenres()
- * /generos/:id               ---> GenreController::showGenre(:id)
+ * /generos                   ---> GenreController->showGenres()
+ * /generos/:id               ---> GenreController->showGenre(:id)
  *
  * Auth
  * /login                     ---> AuthController::showLogin()
@@ -29,11 +29,19 @@ define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'
  * /admin/libros/agregar      ---> BooksController::showAddForm()/addBook()
  * /admin/libros/editar/:id   ---> BooksController::showEditForm(:id)/editBook(:id)
  * /admin/libros/eliminar/:id ---> BooksController::deleteBook(:id)
+ * 
+ * despues lo completo
+ * 
+ * /admin/generos              ->
+ * /admin/generos/agregar      ->
+ * /admin/generos/editar/:id   ->
+ * /admin/generos/eliminar/:id ->
  */
 
 $action = !empty($_GET['action']) ? $_GET['action'] : 'home';
 $params = explode('/', $action);
-$isPost = $_SERVER['REQUEST_METHOD'] === 'POST';
+
+$isPost = $_SERVER['REQUEST_METHOD'] === 'POST'; //q hace esto?
 
 $req = new StdClass();
 $req = (new SessionMiddleware())->run($req);
@@ -44,9 +52,13 @@ switch ($params[0]) {
         break;
 
     case 'generos':
-        $controller = new GenreController();
-        isset($params[1]) ? $controller->showGenre($params[1]) : $controller->showGenres();
-        break;
+      $controller = new GenreController();
+      if (isset($params[1])) {
+        $controller->showGenre($params[1]);
+        } else {
+          $controller->showGenres();
+          }
+    break;
 
     case 'libros':
         $controller = new BooksController();
@@ -67,65 +79,111 @@ switch ($params[0]) {
         break;
 
     case 'admin':
-    $req = (new GuardMiddleware())->run($req);
+      $req = (new GuardMiddleware())->run($req);
 
-    // Verificamos que la sección sea 'libros' (Punto A de tu consigna)
-    if (($params[1] ?? '') !== 'libros') { 
-        notFound(); 
-        break; 
-    }
+      // Verificamos que la sección sea 'libros' (Punto A de tu consigna) Q comentario tan sospechoso 0v0
+      switch($params[1] ?? ''){
+        case 'libros':
 
-    $controller = new BooksController();
-    $subAction = $params[2] ?? ''; 
-
-    switch ($subAction) {
-        case '':
-            // Listado de administración (Lista de ítems)
-            $controller->showAdmin();
-            break;
-
-        case 'agregar':
-            // Maneja mostrar el formulario (GET) o procesar el alta (POST)
-            if ($isPost) {
-                $controller->addBook();
-            } else {
-                $controller->showAddForm();
-            }
-            break;
+        $controller = new BooksController();
+        $subAction = $params[2] ?? '';
         
-        case 'editar':
-            // Edición: mostrar form en GET, procesar en POST
-            if (isset($params[3])) {
-                $id = $params[3];
+        switch ($subAction) {
+            case '':
+                // Listado de administración (Lista de ítems)
+                $controller->showAdmin();
+                break;
+
+            case 'agregar':
+                // Maneja mostrar el formulario (GET) o procesar el alta (POST)
                 if ($isPost) {
-                    $controller->editBook($id);
+                    $controller->addBook();
                 } else {
-                    $controller->showEditForm($id);
+                    $controller->showAddForm();
                 }
-            } else {
-                notFound();
-            }
-            break;
+                break;
+            
+            case 'editar':
+                // Edición: mostrar form en GET, procesar en POST
+                if (isset($params[3])) {
+                    $id = $params[3];
+                    if ($isPost) {
+                        $controller->editBook($id);
+                    } else {
+                        $controller->showEditForm($id);
+                    }
+                } else {
+                    notFound();
+                }
+                break;
 
-        case 'eliminar':
-            if (isset($params[3])) {
-                $id = $params[3];
-                $controller->deleteBook($id);
-            } else {
-                notFound();
-            }
-            break;
+            case 'eliminar':
+                if (isset($params[3])) {
+                    $id = $params[3];
+                    $controller->deleteBook($id);
+                } else {
+                    notFound();
+                }
+                break;
 
-        default:
-            notFound();
-            break;
-    }
-    break;
-    
-    default:
+            default:
+                notFound();
+                break;
+        }
+        break;
+//------------------ADMIN GENEROS------------------
+        case 'generos':
+          $controller = new GenreController();
+          $subAction = $params[2] ?? '';
+
+          switch ($subAction) {
+            case '':
+              $controller->showAdmin();
+              break;
+
+            case 'agregar':
+              if ($isPost) {
+                $controller->addGenre();
+                } else {
+                $controller->showAddForm();
+                }
+                break;
+
+              case 'editar':
+                if (isset($params[3])) {
+                  $id = $params[3];
+                  if ($isPost) {
+                    $controller->editGenre($id);
+                    } else {
+                    $controller->showEditForm($id);
+                    }
+                  } else {
+                    notFound();
+                  }
+                  break;
+
+              case 'eliminar':
+                  if (isset($params[3])) {
+                    $controller->deleteGenre($params[3]);
+                  } else {
+                    notFound();
+                  }
+                  break;
+
+              default:
+                notFound();
+                break;
+          }
+          break;
+      }
+      break;
+
+      default:
         notFound();
         break;
+
 }
+
 
 function notFound() {
     http_response_code(404);

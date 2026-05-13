@@ -17,15 +17,15 @@ require_once "app/views/templates/layout/header.phtml";
           <li class="card-list__item">
             <div class="card-list__info">
               <div class="book-list__title">
-                <a href="libros/ver/<?= $book->id_libro ?>"><?= htmlspecialchars($book->titulo) ?></a>
+                <a href="libros/ver/<?= $book->id_libro ?>"><?= ($book->titulo) ?></a>
               </div>
-              <p class="book-list__author"><?= htmlspecialchars($book->autor) ?></p>
-              <p class="book-list__genre">Categoría: <?= htmlspecialchars($book->nombre_genero) ?></p>
-              <p class="book-list__price">$<?= number_format($book->precio, 2) ?></p>
+              <p class="book-list__author"><?= ($book->autor) ?></p>
+              <p class="book-list__genre">Categoría: <?= ($book->nombre_genero) ?></p>
+              <p class="book-list__price">$<?= ($book->precio) ?></p>
             </div>
             <div class="card-list__image">
               <?php if (!empty($book->imagen)) { ?>
-                <img src="<?= htmlspecialchars($book->imagen) ?>" alt="Portada de <?= htmlspecialchars($book->titulo) ?>">
+                <img src="<?= ($book->imagen) ?>" alt="Portada de <?= ($book->titulo) ?>">
               <?php } ?>
             </div>
           </li>
