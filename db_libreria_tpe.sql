@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-04-2026 a las 13:27:52
+-- Tiempo de generación: 14-05-2026 a las 21:03:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,10 +38,10 @@ CREATE TABLE `genero` (
 -- Volcado de datos para la tabla `genero`
 --
 
-INSERT INTO `genero` (`id_genero`, `nombre`, `descripcion`) VALUES
-(1, 'Ciencia Ficción', 'Relatos sobre tecnología futura y espacio'),
-(2, 'Terror', 'Historias de suspenso y horror'),
-(3, 'Clásicos', 'Literatura universal imprescindible');
+INSERT INTO `genero` (`id_genero`, `nombre`, `descripcion`, `imagen`) VALUES
+(1, 'Ciencia Ficción', 'Relatos sobre tecnología futura y espacio', 'https://static.wikia.nocookie.net/doblaje/images/3/30/CharlesChaplin.jpg/revision/latest?cb=20110427200657&path-prefix=es'),
+(2, 'Terror', 'Historias de suspenso y horror', NULL),
+(3, 'Clásicos', 'Literatura universal imprescindible', NULL);
 
 -- --------------------------------------------------------
 
@@ -62,10 +62,10 @@ CREATE TABLE `libro` (
 -- Volcado de datos para la tabla `libro`
 --
 
-INSERT INTO `libro` (`id_libro`, `titulo`, `autor`, `precio`, `id_genero_fk`) VALUES
-(1, 'Fundación', 'Isaac Asimov', 3500.00, 1),
-(2, 'El Resplandor', 'Stephen King', 2800.00, 2),
-(3, 'Don Quijote', 'Miguel de Cervantes', 4200.00, 3);
+INSERT INTO `libro` (`id_libro`, `titulo`, `autor`, `precio`, `imagen`, `id_genero_fk`) VALUES
+(1, 'Fundación', 'Isaac Asimov', 3500.00, NULL, 1),
+(2, 'El Resplandor', 'Stephen King', 2800.00, NULL, 2),
+(3, 'Don Quijote', 'Miguel de Cervantes', 4200.00, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -78,6 +78,13 @@ CREATE TABLE `usuario` (
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `email`, `password`) VALUES
+(1, 'webadmin', '$2y$10$YU9h0Iyku7KR6JowUrQuZuJDE9WfaRSfRvioSz4XEagGQHSX/qARS');
 
 --
 -- Índices para tablas volcadas
@@ -123,7 +130,7 @@ ALTER TABLE `libro`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
