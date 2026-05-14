@@ -5,7 +5,6 @@ class GenresModel{
 
   public function getGenres(){
     $db = Database::getConnection();
-    //te sedo esta, me gusta como manejas la conexion
     $query = $db->prepare('SELECT * FROM genero');
     $query->execute();
     return $query->fetchAll();

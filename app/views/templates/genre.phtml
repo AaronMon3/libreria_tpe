@@ -3,9 +3,9 @@ require_once "app/views/templates/layout/header.phtml";
 ?>
 
 <main class="card-list">
-  <h2>Categoría: <?= htmlspecialchars($genre->nombre) ?></h2>
+  <h2>Categoría: <?= ($genre->nombre) ?></h2>
   <?php if (!empty($genre->descripcion)) { ?>
-    <p><?= htmlspecialchars($genre->descripcion) ?></p>
+    <p><?= ($genre->descripcion) ?></p>
   <?php } ?>
 
   <div class="card-list__items">

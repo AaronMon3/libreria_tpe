@@ -14,7 +14,10 @@ require_once "app/views/templates/layout/header.phtml";
             <p class="genre-list__desc"><?= ($genre->descripcion) ?></p>
           </div>
           <div class="card-list__image">
-            <img src="" alt="Imagen de <?= ($genre->nombre) ?>">
+            <?php
+            if (!empty($genre->imagen)) { ?>
+            <img src="<?= $genre->imagen ?>" alt="Imagen de <?= $genre->nombre ?>">
+            <?php } ?>
           </div>
         </li>
       <?php } ?>
@@ -24,3 +27,4 @@ require_once "app/views/templates/layout/header.phtml";
 
 <?php
 require_once "app/views/templates/layout/footer.phtml";
+?>
