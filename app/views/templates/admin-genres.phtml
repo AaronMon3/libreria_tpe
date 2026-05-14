@@ -1,0 +1,37 @@
+<?php 
+require_once "app/views/templates/layout/header.phtml";
+?>
+
+<main class="card-list">
+  <div>
+    <button type="button"><a href="admin/generos/agregar">Subir nuevo genero</a></button>
+  </div>
+  <div class="card-list__items">
+    <ul>
+      <?php foreach($genres as $genre) { ?>
+        <li class="card-list__item">
+          <div class="card-list__info">
+            <div class="genre-list__name">
+              <a href="generos/<?= $genre->id_genero ?>"><?= ($genre->nombre) ?></a>
+            </div>
+            <p class="genre-list__desc"><?= ($genre->descripcion) ?></p>
+          </div>
+          <div class="card-list__image">
+            <?php
+            if (!empty($genre->imagen)) { ?>
+            <img src="<?= $genre->imagen ?>" alt="Imagen de <?= $genre->nombre ?>">
+            <?php } ?>
+          </div>
+          <div>
+            <button type="button"><a href="admin/generos/eliminar/<?= $genre->id_genero ?>">Eliminar</a></button>
+            <button type="button"><a href="admin/generos/editar/<?= $genre->id_genero ?>">Editar</a></button>
+          </div>
+        </li>
+      <?php } ?>
+    </ul>
+  </div>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>

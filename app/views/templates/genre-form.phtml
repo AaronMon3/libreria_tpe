@@ -1,0 +1,37 @@
+<?php
+require_once "app/views/templates/layout/header.phtml";
+$isEdit = $genre !== null;
+$action = $isEdit ? "admin/generos/editar/" . $genre->id_genero : "admin/generos/agregar";
+?>
+
+<main>
+  <h2><?= $isEdit ? "Editar género" : "Agregar género" ?></h2>
+
+  <form method="POST" action="<?= $action ?>">
+    <div>
+      <label for="nombre">Nombre *</label>
+      <input type="text" name="nombre" id="nombre" required
+        value="<?= $isEdit ? $genre->nombre : '' ?>">
+    </div>
+
+    <div>
+      <label for="descripcion">Descripción *</label>
+      <textarea name="descripcion" id="descripcion" required>
+        <?= $isEdit ? $genre->descripcion : '' ?>
+      </textarea>
+    </div>
+
+    <div>
+      <label for="imagen">URL de imagen</label>
+      <input type="text" name="imagen" id="imagen"
+        value="<?= $isEdit ? $genre->imagen : '' ?>">
+    </div>
+
+    <button type="submit"><?= $isEdit ? "Guardar cambios" : "Agregar género" ?></button>
+    <a href="admin/generos">Cancelar</a>
+  </form>
+</main>
+
+<?php
+require_once "app/views/templates/layout/footer.phtml";
+?>
