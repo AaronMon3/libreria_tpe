@@ -26,22 +26,21 @@ define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'
  *
  * Admin (requiere login - GuardMiddleware)
  * /admin/libros              ---> BooksController::showAdmin()
- * /admin/libros/agregar      ---> BooksController::showAddForm()/addBook()
- * /admin/libros/editar/:id   ---> BooksController::showEditForm(:id)/editBook(:id)
+ * /admin/libros/agregar      ---> BooksController::showAddForm() [GET] / addBook() [POST]
+ * /admin/libros/editar/:id   ---> BooksController::showEditForm(:id) [GET] / editBook(:id) [POST]
  * /admin/libros/eliminar/:id ---> BooksController::deleteBook(:id)
- * 
- * despues lo completo
- * 
- * /admin/generos              ->
- * /admin/generos/agregar      ->
- * /admin/generos/editar/:id   ->
- * /admin/generos/eliminar/:id ->
+ *
+ * /admin/generos              ---> GenreController::showAdmin()
+ * /admin/generos/agregar      ---> GenreController::showAddForm() [GET] / addGenre() [POST]
+ * /admin/generos/editar/:id   ---> GenreController::showEditForm(:id) [GET] / editGenre(:id) [POST]
+ * /admin/generos/eliminar/:id ---> GenreController::deleteGenre(:id)
  */
 
 $action = !empty($_GET['action']) ? $_GET['action'] : 'home';
 $params = explode('/', $action);
 
-$isPost = $_SERVER['REQUEST_METHOD'] === 'POST'; //q hace esto?
+// Determina si la petición es POST (para diferenciar mostrar formulario vs procesar datos)
+$isPost = $_SERVER['REQUEST_METHOD'] === 'POST';
 
 $req = new StdClass();
 $req = (new SessionMiddleware())->run($req);
@@ -52,13 +51,13 @@ switch ($params[0]) {
         break;
 
     case 'generos':
-      $controller = new GenreController();
-      if (isset($params[1])) {
-        $controller->showGenre($params[1]);
+        $controller = new GenreController();
+        if (isset($params[1])) {
+            $controller->showGenre($params[1]);
         } else {
-          $controller->showGenres();
-          }
-    break;
+            $controller->showGenres();
+        }
+        break;
 
     case 'libros':
         $controller = new BooksController();
@@ -71,7 +70,11 @@ switch ($params[0]) {
 
     case 'login':
         $controller = new AuthController();
-        (isset($params[1]) && $params[1] === 'auth') ? $controller->authenticate() : $controller->showLogin();
+        if (isset($params[1]) && $params[1] === 'auth') {
+            $controller->authenticate();
+        } else {
+            $controller->showLogin();
+        }
         break;
 
     case 'logout':
@@ -79,50 +82,96 @@ switch ($params[0]) {
         break;
 
     case 'admin':
-      $req = (new GuardMiddleware())->run($req);
+        $req = (new GuardMiddleware())->run($req);
 
-      // Verificamos que la sección sea 'libros' (Punto A de tu consigna) Q comentario tan sospechoso 0v0
-      switch($params[1] ?? ''){
-        case 'libros':
+        switch ($params[1] ?? '') {
+            //------------------ADMIN LIBROS------------------
+            case 'libros':
+                $controller = new BooksController();
+                $subAction = $params[2] ?? '';
 
-        $controller = new BooksController();
-        $subAction = $params[2] ?? '';
-        
-        switch ($subAction) {
-            case '':
-                // Listado de administración (Lista de ítems)
-                $controller->showAdmin();
-                break;
+                switch ($subAction) {
+                    case '':
+                        $controller->showAdmin();
+                        break;
 
-            case 'agregar':
-                // Maneja mostrar el formulario (GET) o procesar el alta (POST)
-                if ($isPost) {
-                    $controller->addBook();
-                } else {
-                    $controller->showAddForm();
+                    case 'agregar':
+                        if ($isPost) {
+                            $controller->addBook();
+                        } else {
+                            $controller->showAddForm();
+                        }
+                        break;
+
+                    case 'editar':
+                        if (isset($params[3])) {
+                            $id = $params[3];
+                            if ($isPost) {
+                                $controller->editBook($id);
+                            } else {
+                                $controller->showEditForm($id);
+                            }
+                        } else {
+                            notFound();
+                        }
+                        break;
+
+                    case 'eliminar':
+                        if (isset($params[3])) {
+                            $controller->deleteBook($params[3]);
+                        } else {
+                            notFound();
+                        }
+                        break;
+
+                    default:
+                        notFound();
+                        break;
                 }
                 break;
-            
-            case 'editar':
-                // Edición: mostrar form en GET, procesar en POST
-                if (isset($params[3])) {
-                    $id = $params[3];
-                    if ($isPost) {
-                        $controller->editBook($id);
-                    } else {
-                        $controller->showEditForm($id);
-                    }
-                } else {
-                    notFound();
-                }
-                break;
 
-            case 'eliminar':
-                if (isset($params[3])) {
-                    $id = $params[3];
-                    $controller->deleteBook($id);
-                } else {
-                    notFound();
+            //------------------ADMIN GENEROS------------------
+            case 'generos':
+                $controller = new GenreController();
+                $subAction = $params[2] ?? '';
+
+                switch ($subAction) {
+                    case '':
+                        $controller->showAdmin();
+                        break;
+
+                    case 'agregar':
+                        if ($isPost) {
+                            $controller->addGenre();
+                        } else {
+                            $controller->showAddForm();
+                        }
+                        break;
+
+                    case 'editar':
+                        if (isset($params[3])) {
+                            $id = $params[3];
+                            if ($isPost) {
+                                $controller->editGenre($id);
+                            } else {
+                                $controller->showEditForm($id);
+                            }
+                        } else {
+                            notFound();
+                        }
+                        break;
+
+                    case 'eliminar':
+                        if (isset($params[3])) {
+                            $controller->deleteGenre($params[3]);
+                        } else {
+                            notFound();
+                        }
+                        break;
+
+                    default:
+                        notFound();
+                        break;
                 }
                 break;
 
@@ -131,57 +180,10 @@ switch ($params[0]) {
                 break;
         }
         break;
-//------------------ADMIN GENEROS------------------
-        case 'generos':
-          $controller = new GenreController();
-          $subAction = $params[2] ?? '';
 
-          switch ($subAction) {
-            case '':
-              $controller->showAdmin();
-              break;
-
-            case 'agregar':
-              if ($isPost) {
-                $controller->addGenre();
-                } else {
-                $controller->showAddForm();
-                }
-                break;
-
-              case 'editar':
-                if (isset($params[3])) {
-                  $id = $params[3];
-                  if ($isPost) {
-                    $controller->editGenre($id);
-                    } else {
-                    $controller->showEditForm($id);
-                    }
-                  } else {
-                    notFound();
-                  }
-                  break;
-
-              case 'eliminar':
-                  if (isset($params[3])) {
-                    $controller->deleteGenre($params[3]);
-                  } else {
-                    notFound();
-                  }
-                  break;
-
-              default:
-                notFound();
-                break;
-          }
-          break;
-      }
-      break;
-
-      default:
+    default:
         notFound();
         break;
-
 }
 
 

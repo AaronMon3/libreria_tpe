@@ -9,12 +9,11 @@ class AuthController{
   function __construct(){
     $this->model = new UsersModel();
     $this->view = new AuthView();
-    $this->model->ensureDefaultAdmin();
   }
 
   public function showLogin(){
     if (!empty($_SESSION['id'])) {
-      header('Location: ' . BASE_URL . 'admin/libros');
+      header('Location: ' . BASE_URL . 'home');
       return;
     }
     $this->view->showLogin(null);
@@ -32,7 +31,7 @@ class AuthController{
 
     $_SESSION['id'] = $user->id_usuario;
     $_SESSION['email'] = $user->email;
-    header('Location: ' . BASE_URL . 'admin/libros');
+    header('Location: ' . BASE_URL . 'home');
   }
 
   public function logout(){

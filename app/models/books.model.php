@@ -9,7 +9,7 @@ class BooksModel{
                            FROM libro l
                            INNER JOIN genero g ON l.id_genero_fk = g.id_genero');
     $query->execute();
-    return $query->fetchAll();
+    return $query->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function getBookById($id){
@@ -19,7 +19,7 @@ class BooksModel{
                            INNER JOIN genero g ON l.id_genero_fk = g.id_genero
                            WHERE l.id_libro = ?');
     $query->execute([$id]);
-    return $query->fetch();
+    return $query->fetch(PDO::FETCH_OBJ);
   }
 
   public function getBooksByGenre($idGenero){
@@ -29,7 +29,7 @@ class BooksModel{
                            INNER JOIN genero g ON l.id_genero_fk = g.id_genero
                            WHERE l.id_genero_fk = ?');
     $query->execute([$idGenero]);
-    return $query->fetchAll();
+    return $query->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function insertBook($titulo, $autor, $precio, $imagen, $idGenero){

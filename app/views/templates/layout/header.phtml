@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/styles.css">
-  <title>libreria AE</title>
+  <title>Libreria AE</title>
 </head>
 <body>
   <header>
@@ -17,13 +17,14 @@
         <div class="nav__links">
           <a href="libros">Libros</a>
           <a href="generos">Categorías</a>
-          <?php if (!empty($_SESSION['user'])) { ?>
-            <a href="admin/libros">Administrar</a>
+          <?php if (!empty($_SESSION['id'])) { ?>
+            <a href="admin/libros">Admin Libros</a>
+            <a href="admin/generos">Admin Géneros</a>
           <?php } ?>
         </div>
         <div class="nav__session">
-          <?php if (!empty($_SESSION['user'])) { ?>
-            <span>Hola, <?= htmlspecialchars($_SESSION['user']) ?></span>
+          <?php if (!empty($_SESSION['id'])) { ?>
+            <span>Hola, <?= htmlspecialchars($_SESSION['email']) ?></span>
             <a href="logout">Cerrar sesión</a>
           <?php } else { ?>
             <a href="login">Iniciar sesión</a>

@@ -6,6 +6,3 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8');
 
-// Usuario administrador por defecto (se crea automáticamente si no existe)
-define('DEFAULT_ADMIN_USER', 'webadmin');
-define('DEFAULT_ADMIN_PASS', 'admin');

@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `genero` (
   `id_genero` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `descripcion` text DEFAULT NULL
+  `descripcion` text DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -53,6 +54,7 @@ CREATE TABLE `libro` (
   `titulo` varchar(100) NOT NULL,
   `autor` varchar(100) NOT NULL,
   `precio` decimal(10,2) NOT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
   `id_genero_fk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

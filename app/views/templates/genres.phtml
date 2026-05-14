@@ -3,20 +3,20 @@ require_once "app/views/templates/layout/header.phtml";
 ?>
 
 <main class="card-list">
+  <h2>Categorías</h2>
   <div class="card-list__items">
     <ul>
       <?php foreach($genres as $genre) { ?>
         <li class="card-list__item">
           <div class="card-list__info">
             <div class="genre-list__name">
-              <a href="generos/<?= $genre->id_genero ?>"><?= ($genre->nombre) ?></a>
+              <a href="generos/<?= $genre->id_genero ?>"><?= htmlspecialchars($genre->nombre) ?></a>
             </div>
-            <p class="genre-list__desc"><?= ($genre->descripcion) ?></p>
+            <p class="genre-list__desc"><?= htmlspecialchars($genre->descripcion) ?></p>
           </div>
           <div class="card-list__image">
-            <?php
-            if (!empty($genre->imagen)) { ?>
-            <img src="<?= $genre->imagen ?>" alt="Imagen de <?= $genre->nombre ?>">
+            <?php if (!empty($genre->imagen)) { ?>
+              <img src="<?= htmlspecialchars($genre->imagen) ?>" alt="Imagen de <?= htmlspecialchars($genre->nombre) ?>">
             <?php } ?>
           </div>
         </li>

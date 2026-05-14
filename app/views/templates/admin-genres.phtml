@@ -2,34 +2,40 @@
 require_once "app/views/templates/layout/header.phtml";
 ?>
 
-<main class="card-list">
-  <div>
-    <button type="button"><a href="admin/generos/agregar">Subir nuevo genero</a></button>
-  </div>
-  <div class="card-list__items">
-    <ul>
+<main class="admin">
+  <h2>Administración de Géneros</h2>
+  <p><a href="admin/generos/agregar">Agregar nuevo género</a></p>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
       <?php foreach($genres as $genre) { ?>
-        <li class="card-list__item">
-          <div class="card-list__info">
-            <div class="genre-list__name">
-              <a href="generos/<?= $genre->id_genero ?>"><?= ($genre->nombre) ?></a>
-            </div>
-            <p class="genre-list__desc"><?= ($genre->descripcion) ?></p>
-          </div>
-          <div class="card-list__image">
-            <?php
-            if (!empty($genre->imagen)) { ?>
-            <img src="<?= $genre->imagen ?>" alt="Imagen de <?= $genre->nombre ?>">
+        <tr>
+          <td><a href="generos/<?= $genre->id_genero ?>"><?= htmlspecialchars($genre->nombre) ?></a></td>
+          <td><?= htmlspecialchars($genre->descripcion) ?></td>
+          <td>
+            <?php if (!empty($genre->imagen)) { ?>
+              <img src="<?= htmlspecialchars($genre->imagen) ?>" alt="Imagen de <?= htmlspecialchars($genre->nombre) ?>" class="admin-table__img">
+            <?php } else { ?>
+              <span class="admin-table__no-img">Sin imagen</span>
             <?php } ?>
-          </div>
-          <div>
-            <button type="button"><a href="admin/generos/eliminar/<?= $genre->id_genero ?>">Eliminar</a></button>
-            <button type="button"><a href="admin/generos/editar/<?= $genre->id_genero ?>">Editar</a></button>
-          </div>
-        </li>
+          </td>
+          <td>
+            <a href="admin/generos/editar/<?= $genre->id_genero ?>">Editar</a>
+            <a href="admin/generos/eliminar/<?= $genre->id_genero ?>"
+               onclick="return confirm('¿Eliminar este género?');">Eliminar</a>
+          </td>
+        </tr>
       <?php } ?>
-    </ul>
-  </div>
+    </tbody>
+  </table>
 </main>
 
 <?php

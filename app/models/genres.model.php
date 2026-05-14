@@ -7,14 +7,14 @@ class GenresModel{
     $db = Database::getConnection();
     $query = $db->prepare('SELECT * FROM genero');
     $query->execute();
-    return $query->fetchAll();
+    return $query->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function getGenreById($id){
     $db = Database::getConnection();
     $query = $db->prepare('SELECT * FROM genero WHERE id_genero = ?');
     $query->execute([$id]);
-    return $query->fetch();
+    return $query->fetch(PDO::FETCH_OBJ);
   }
 
   public function insertGenre($nombre,$descripcion,$imagen){

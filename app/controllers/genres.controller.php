@@ -37,51 +37,58 @@ class GenreController{
   }
 
   public function showAddForm(){
-     $this->view->showForm(null);
+    $this->view->showForm(null);
   }
 
-  //-------------Formulario para ABM de Generos-------------
+  //-------------Formulario para editar Genero-------------
   public function showEditForm($id){
     $genre = $this->model->getGenreById($id);
     if (!$genre){
       header('Location: ' . BASE_URL . 'admin/generos');
       return;
-      }
-      $this->view->showForm($genre);
+    }
+    $this->view->showForm($genre);
   }
 
   //-------------Añadir Genero-------------
   public function addGenre(){
-    if(!isset($_POST['nombre']) || empty($_POST['nombre']) ||
-      !isset($_POST['descripcion']) || empty($_POST['descripcion'])){
-        header('Location: ' . BASE_URL . 'admin/generos/agregar');
-        return;
-      }
-    $nombre = $_POST['nombre'];
-    $descripcion = $_POST['descripcion'];
-    $imagen = $_POST['imagen'];
+    $nombre = trim($_POST['nombre'] ?? '');
+    $descripcion = trim($_POST['descripcion'] ?? '');
+    $imagen = trim($_POST['imagen'] ?? '');
 
-    $this->model->insertGenre($nombre,$descripcion,$imagen);
+    if ($nombre === '' || $descripcion === ''){
+      header('Location: ' . BASE_URL . 'admin/generos/agregar');
+      return;
+    }
+
+    $this->model->insertGenre($nombre, $descripcion, $imagen ?: null);
     header('Location: ' . BASE_URL . 'admin/generos');
   }
 
   //-------------Editar Genero-------------
   public function editGenre($id){
-    if(!isset($_POST['nombre']) || empty($_POST['nombre']) ||
-        !isset($_POST['descripcion']) || empty($_POST['descripcion'])){
-          header('Location: ' . BASE_URL . 'admin/generos/editar/' . $id);
-          return;
-        }
-      $nombre = $_POST['nombre'];
-      $descripcion = $_POST['descripcion'];
-      $imagen = $_POST['imagen'];
-  
-      $this->model->updateGenre($id, $nombre,$descripcion,$imagen);
-      header('Location: ' . BASE_URL . 'admin/generos');
+    $nombre = trim($_POST['nombre'] ?? '');
+    $descripcion = trim($_POST['descripcion'] ?? '');
+    $imagen = trim($_POST['imagen'] ?? '');
+
+    if ($nombre === '' || $descripcion === ''){
+      header('Location: ' . BASE_URL . 'admin/generos/editar/' . $id);
+      return;
+    }
+
+    $this->model->updateGenre($id, $nombre, $descripcion, $imagen ?: null);
+    header('Location: ' . BASE_URL . 'admin/generos');
   }
 
-  //-------------Elimnar Genero-------------
+  //-------------Eliminar Genero-------------
   public function deleteGenre($id){
+    // Verificar que no tenga libros asociados antes de eliminar
+    $books = $this->bookModel->getBooksByGenre($id);
+    if (!empty($books)){
+      // No se puede eliminar un género con libros asociados
+      header('Location: ' . BASE_URL . 'admin/generos');
+      return;
+    }
     $this->model->deleteGenre($id);
     header('Location: ' . BASE_URL . 'admin/generos');
   }
